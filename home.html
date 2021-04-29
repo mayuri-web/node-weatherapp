@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"/>
+    
+    
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet"> 
+	<title>Weather App</title>
+	<link rel="stylesheet" href="">
+
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+			font-family: Josefin Sans;
+		}	
+		body
+		{
+			background: #44484a;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			height: 100vh;
+			width: 100vw;
+		}
+		.box
+		{
+			width: 20vw;
+			height: 50vh;
+			border-radius: 0.5rem;
+			box-shadow: 0 0.2rem 3rem rgba(0,0,0,0.2);
+			background-color: #a5bbdd;
+			position: relative;
+			overflow: hidden;
+			transform: translate3d(0, 0, 0);
+			min-height: 35rem;
+			min-width: 20rem;
+		}
+		.info
+		{
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			height: 50%;
+			z-index: 4;
+		}
+		#wethname
+		{
+			text-align: center;
+			margin-top: 0.5rem;
+			text-transform: uppercase;
+		}
+		.location
+		{
+			margin-top: 1rem;
+			text-align: center;
+			font-weight: 400;
+			font-size: 2rem;
+
+		}
+		#date
+		{
+			text-align: center;
+			margin-top: 0.5rem;
+			text-transform: uppercase;
+		}
+		.temp
+		{
+			margin-top: 2.5rem;
+			text-align: center;
+			font-size: 3rem;
+		}
+		.tempmin_max
+		{
+			text-align: center;
+			margin-top: 0.3rem;
+		}
+		#wethericon
+		{
+			height: 55%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 3em;
+		}
+		#wethericon .fas
+		{
+			font-size: 6rem;
+			animation: fas-anime 3s infinite alternate;
+		}
+		@keyframes fas-anime{
+			from{
+				transform: scale(1.5);
+			}
+			to{
+				transform: scale(1.2);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div id="wethericon">
+		 <!-- <i class='fas fa-sun' style='color: #eccc68;'></i> -->
+		</div>
+		<!-- <div>
+			
+		</div> -->
+		<div class="info">
+			<p id="wethname">{%tempstatus%}</p>
+			<h2 class="location"><i class="fas fa-street-view"></i> {%location%}, {%country%}</h2>
+			<p id="date"></p>
+			<h1 class="temp">{%tempval%} &deg;C</h1>
+			<h3 class="tempmin_max">Min {%tempmin%} &deg;C | Max {%tempmax%} &deg;C</h3>
+		</div>
+
+	</div>
+
+	<script>
+		const curDate = document.getElementById("date");
+		let wethericon = document.getElementById("wethericon");
+
+		const tempStatus = "{%tempstatus%}";
+			if (tempStatus == "Sunny")
+			{
+				wethericon.innerHTML = "<i class='fas fa-sun' style='color: #eccc68;'></i>";
+			}
+			 else if (tempStatus == "Clouds")
+			{
+				wethericon.innerHTML = "<i class='fas fa-cloud' style='color: #dfe4ea;'></i>";
+			}
+			 else if (tempStatus == "Rainy")
+			{
+				wethericon.innerHTML = "<i class='fas fa-cloud-rain' style='color: #a4b0be;'></i>";
+			}
+			else 
+			{
+				wethericon.innerHTML = "<i class='fas fa-smog' style='color: #3a516c;'></i>";
+			}
+			
+
+		const getCurrentDay = () =>{
+			var weekday = new Array(7);
+			weekday[0] = "Sun";
+			weekday[1] = "Mon";
+			weekday[2] = "Tue";
+			weekday[3] = "Wed";
+			weekday[4] = "Thu";
+			weekday[5] = "Fri";
+			weekday[6] = "Sat";
+
+			let currentTime = new Date();
+			let day = weekday[currentTime.getDay()];
+			return day;
+		};
+
+		const getCurrentTime = () => {
+			var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec",];
+
+			var now = new Date();
+			var month = months[now.getMonth()];
+			var date = now.getDate();
+
+			let hours = now.getHours();
+			let mins = now.getMinutes();
+
+			let periods = "AM";
+			if (hours > 11){
+				periods = "PM";
+				if(hours > 12 ) hours -= 12 ;
+			}
+			if (mins < 10) {
+				mins = '0' + mins;
+			}
+			return `${month} ${date}  | ${hours}:${mins} ${periods}`;
+			//console.log(month + "/" + date);
+		};
+		curDate.innerHTML = getCurrentDay() +  " | " +getCurrentTime();
+		
+	</script>
+</body>
+</html>
